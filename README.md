@@ -19,16 +19,16 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
   
 - - - 
   
-## step-1
+## step-1 branch
 1단계 : 단어 밀어내기 구현하기
 
-- inputWord() : 띄어쓰기 없는 한 단어 입력받기
-  - wordCheck() : 띄어쓰기 있는지 확인
-- inputNum() : -100이상 100미만의 정수.
-  - numCheck() : -100이상 100미만인지 확인
-  // int로 받고 형변환 지우기
-- inputLR() : L,l,R,r 중 하나의 문자.
-  - LRCheck() : L, l, R, r 이 아닌 다른 문자인지 확인
+- `inputWord()` : 띄어쓰기 없는 한 단어 입력받기
+  - `wordCheck()` : 띄어쓰기 있는지 확인
+- `inputNum()` : -100이상 100미만의 정수.
+  - `numCheck()` : -100이상 100미만인지 확인
+ 
+- `inputLR()` : L,l,R,r 중 하나의 문자.
+  - `LRCheck()` : L, l, R, r 이 아닌 다른 문자인지 확인
   
 - trimInput(word, num, LR) : 각 입력값을 정돈하기
   - word : 각 글자를 요소로 하는 배열로 변환
@@ -41,3 +41,27 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
     > 0일떄는? 밀어내기 없음.
   
 - pushWord() : word를 num만큼 L/R방향으로 밀어내기
+  - 사실 이 풀이는 '왼쪽/오른쪽으로 밀어내기'보다는 '잘라서 왼쪽/오른쪽에 붙이기'에 더 가까움..
+  - 글자 재배치를 위해 `substring(int beginindex, int endindex)`사용.
+    - [자바 substring1](https://jamesdreaming.tistory.com/81), [자바 substring2](https://jhnyang.tistory.com/335) 를 참고했습니다. 감사합니다.
+  - 왼쪽으로 밀어낼 때는 앞에서부터 num번째까지 잘라내어(wordRight) 나머지 글자(wordLeft)의 뒤에 붙임.
+    - `wordLeft = word.substring(num, wordLength);`
+    - `wordRight = word.substring(0, num);`
+  - 오른쪽으로 밀어낼 때는 뒤에서부터 num번째까지 잘라내어(wordLeft) 나머지 글자(wordRight)의 앞에 붙임.
+    - `wordLeft = word.substring(wordLength - num, wordLength);`
+    - `wordRight = word.substring(0, wordLength - num);`
+    - 결과는 둘 다 `wordLeft`에 `wordRight`를 이어붙인 것이다.
+    
+- 사실 결과론적으로 답이 맞긴 하지만 2,3단계의 루빅스큐브 풀이에도 이 방식이 통할지는 의문이다. 🤔
+- 처음에 Step1Controller, Step1View로 나누어 작업하려 했는데 이상하게 자꾸 에러가 떠서 우선 한 파일로 완성했다.
+  - 원인은 Scanner(System.in)의 잘못된 사용이었던 것 같다.
+  - [Scanner NoSuchElementException](https://okky.kr/article/508578) 를 참고했습니다. 감사합니다.
+  
+### TODO 
+- 3단계까지 문제를 다 푼 뒤에도 시간이 남으면 리팩토링해야겠다!
+  - else, else if 덜 쓸 수 있는지 보기.
+  - num들은 int로 받고 형변환 지우기
+    
+- - - 
+
+## step-2 branch
