@@ -30,7 +30,6 @@ public class Step1Controller {
 
     public String wordCheck(String word) {
         if (word.split(" ").length == 1) {
-            System.out.println("word 검사완료");
             return word;
         } else {
             System.out.println("Error : 띄어쓰기 없이 한 문자로 다시 입력해 주세요.");
@@ -50,13 +49,12 @@ public class Step1Controller {
     public String numCheck(String num) {
         int intNum = Integer.parseInt(num);
         if (intNum >= -100 && intNum < 100) {
-            System.out.println("num 검사완료");
             String strNum = Integer.toString(intNum);
             return strNum;
         } else {
             System.out.println("Error : -100 이상 100 미만의 정수를 입력해 주세요");
             num = inputNum();
-            numCheck(num); // 다시 체크
+            numCheck(num);
             return num;
         }
     }
@@ -70,7 +68,6 @@ public class Step1Controller {
 
     public String LRCheck(String LR) {
         if (LR.equals("L") || LR.equals("l") || LR.equals("R") || LR.equals("r")) {
-            System.out.println("LR 검사완료");
             return LR;
         } else {
             System.out.println("Error : L, l (왼쪽) / R, r (오른쪽) 중 하나만 입력해 주세요.");
@@ -82,13 +79,8 @@ public class Step1Controller {
 
     public void trimInput(String word, String num, String LR) { // 각각 함수로 만들고 리턴값 준 다음 pushWord에서 호출해 쓰기
         System.out.println("checkedWord:" + word + " checkedNum:" + num + " checkedLR:" + LR);
-        // word) 그대로 반환
-        if (LR.equals("l")) {  // LR) 소문자입력 -> 대문자로 변환
-            LR = "L";
-        }
-        if (LR.equals("r")) {
-            LR = "R";
-        }
+        if (LR.equals("l")) LR = "L"; // LR) 소문자 입력은 대문자로 변환
+        if (LR.equals("r")) LR = "R";
         int intNum = Integer.parseInt(num); // num) 음수는 LR반대로 & 양수로 하고, 양수는 word.length로 나눈 나머지로 치환
         if (intNum < 0) { // num이 음수이면
             if (LR.equals("L")) LR = "R"; // 왼->오, 오->왼
@@ -96,10 +88,7 @@ public class Step1Controller {
             intNum *= -1; // 양수로 만들기
         }
         int pushNum = intNum % word.length();
-        //print
-        System.out.println("LR : " + LR);
-        System.out.println("intNum : " + intNum);
-        System.out.println("pushNum : " + pushNum);
+        // word) 그대로 반환
         pushWord(word, pushNum, LR);
     }
 
@@ -111,13 +100,13 @@ public class Step1Controller {
         if (LR.equals("L")) {
             wordLeft = word.substring(num, wordLength);
             wordRight = word.substring(0, num);
-            result = wordLeft + wordRight;
         }
         if (LR.equals("R")) {
             wordLeft = word.substring(wordLength - num, wordLength);
             wordRight = word.substring(0, wordLength - num);
-            result = wordLeft + wordRight;
         }
+        result = wordLeft + wordRight;
         System.out.println("결과 : " + result);
+        sc.close();
     }
 }
