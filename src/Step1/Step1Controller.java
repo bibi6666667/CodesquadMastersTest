@@ -82,8 +82,7 @@ public class Step1Controller {
 
     public void trimInput(String word, String num, String LR) { // 각각 함수로 만들고 리턴값 준 다음 pushWord에서 호출해 쓰기
         System.out.println("checkedWord:" + word + " checkedNum:" + num + " checkedLR:" + LR);
-
-        String[] tempWord = word.split(""); // word) 각 글자를 element로 하는 배열로 변환
+        // word) 그대로 반환
         if (LR.equals("l")) {  // LR) 소문자입력 -> 대문자로 변환
             LR = "L";
         }
@@ -98,19 +97,27 @@ public class Step1Controller {
         }
         int pushNum = intNum % word.length();
         //print
-        System.out.println("tempWord 길이 : " + tempWord.length);
         System.out.println("LR : " + LR);
         System.out.println("intNum : " + intNum);
         System.out.println("pushNum : " + pushNum);
-        pushWord(tempWord, pushNum, LR);
+        pushWord(word, pushNum, LR);
     }
 
-    public String pushWord(String[] trimmedWord, int trimmedNum, String trimmedLR) {
-
-
+    public void pushWord(String word, int num, String LR) {
         String result = null;
-        return result;
+        String wordLeft = null;
+        String wordRight = null;
+        int wordLength = word.length();
+        if (LR.equals("L")) {
+            wordLeft = word.substring(num, wordLength);
+            wordRight = word.substring(0, num);
+            result = wordLeft + wordRight;
+        }
+        if (LR.equals("R")) {
+            wordLeft = word.substring(wordLength - num, wordLength);
+            wordRight = word.substring(0, wordLength - num);
+            result = wordLeft + wordRight;
+        }
+        System.out.println("결과 : " + result);
     }
-
-
 }
