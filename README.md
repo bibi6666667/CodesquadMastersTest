@@ -26,11 +26,10 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
   - `wordCheck()` : 띄어쓰기 있는지 확인
 - `inputNum()` : -100이상 100미만의 정수.
   - `numCheck()` : -100이상 100미만인지 확인
- 
 - `inputLR()` : L,l,R,r 중 하나의 문자.
   - `LRCheck()` : L, l, R, r 이 아닌 다른 문자인지 확인
   
-- trimInput(word, num, LR) : 각 입력값을 정돈하기
+- `trimInput(word, num, LR)` : 각 입력값을 정돈하기
   - word : 각 글자를 요소로 하는 배열로 변환
   - LR : l은 L로, r은 R로 변환
   - num 
@@ -40,7 +39,7 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
     > 밀려나간 단어는 반대쪽으로 채워지기 때문.                                                                                       
     > 0일떄는? 밀어내기 없음.
   
-- pushWord() : word를 num만큼 L/R방향으로 밀어내기
+- `pushWord()` : word를 num만큼 L/R방향으로 밀어내기
   - 사실 이 풀이는 '왼쪽/오른쪽으로 밀어내기'보다는 '잘라서 왼쪽/오른쪽에 붙이기'에 더 가까움..
   - 글자 재배치를 위해 `substring(int beginindex, int endindex)`사용.
     - [자바 substring1](https://jamesdreaming.tistory.com/81), [자바 substring2](https://jhnyang.tistory.com/335) 를 참고했습니다. 감사합니다.
@@ -65,3 +64,14 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
 - - - 
 
 ## step-2 branch
+- 평면큐브 구현하기
+자바에서 배열과 문자열은 모두 객체라는 것을 잊지말자ㅠㅠ
+==(비교연산) 대신 equals(), =(대입연산) 대신 for문 복사 해야 하는 것을 매일 까먹는다. 흑흑..
+
+어제 헤멨던 부분 역시 배열을 복사하는 데에 대입연산자 (=)를 써서, 주솟값이 복사되어 발생한 오류였던 것 같다.
+깊은복사(deep copy)라고 불리는 작업을 따로 실행하면 될 것 같다. (현재 코드 수정중)
+참고 링크 : [자바 2차원배열 복사](https://limkydev.tistory.com/177), [자바 1차원/2차원배열의 얕은 복사와 깊은 복사deep copy](https://hoho325.tistory.com/89)
+
+성공! 다시 이어서 코딩하자 :D 
+- U U' R R' L L' B B' 모두 완성!
+- 이제  "한 번에 여러 문자를 입력받은 경우 순서대로 처리해서 매 과정을 화면에 출력한다." 만 구현하면 된다.
