@@ -116,11 +116,20 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
 - `copyCube(tempCube)` : cubeBoard을 tempCube로 복사하는 2차원배열 복사 메소드.
   - return : tempCube (cubeBoard가 복사된).
 - `pasteCube(tempCube)` : tempCube를 cubeBoard로 붙여넣기하는 2차원배열 복사 메소드.
-- `whenU()` : 입력값이 U일 때 수행되는 메소드.
-- `whenUDot()'` : 입력값이 U'일 때 수행되는 메소드.
-- `whenR()` : 입력값이 R일 때 수행되는 메소드.
-- `whenRDot()` : 입력값이 R'일 떄 수행되는 메소드. 
-- `whenL()` : 입력값이 R'일 떄 수행되는 메소드. 
-- `whenLDot()` : 입력값이 R'일 떄 수행되는 메소드. 
-- `whenB()` : 입력값이 R'일 떄 수행되는 메소드. 
-- `whenBDot()` : 입력값이 R'일 떄 수행되는 메소드. 
+- `whenU()` `whenUDot()` : 각각 입력값이 U, U'일 때 수행되는 메소드.
+- `whenR()` `whenRDot()` : 각각 입력값이 R, R'일 때 수행되는 메소드.
+- `whenL()` `whenLDot()` : 각각 입력값이 L, L'일 떄 수행되는 메소드. 
+- `whenB()` `whenBDot()` : 각각 입력값이 B, B'일 떄 수행되는 메소드. 
+
+
+- - - 
+
+## step-3
+루빅스 큐브 구현하기
+
+- 빛과 소금같은 참고사이트 [큐브 맞추는 방법](https://cube3x3.com/%ED%81%90%EB%B8%8C%EB%A5%BC-%EB%A7%9E%EC%B6%94%EB%8A%94-%EB%B0%A9/#notation), [루빅 큐브 맞추기](https://rubiks-cube-solver.com/ko/#)..
+- 우선은 예제와 조금 달라도 '루빅큐브 맞추기' 도안 색깔 기호를 따라 만들기로 했다.
+- step-2를 참고해 프로그램의 큰 틀 먼저 만들어 보기.
+
+- printf()를 열심히 활용해 예시와 비슷한 출력형태를 만들었다.
+  - 실제로 이 프로그램으로 큐브를 맞추려면 명령어에 대한 전개도 안내가 필요할 것 같아 printf()에 추가했다. 
