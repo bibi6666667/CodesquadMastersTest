@@ -22,6 +22,7 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
 ## step-1 branch
 1단계 : 단어 밀어내기 구현하기
 
+**12/7**
 - `inputWord()` : 띄어쓰기 없는 한 단어 입력받기
   - `wordCheck()` : 띄어쓰기 있는지 확인
 - `inputNum()` : -100이상 100미만의 정수.
@@ -68,6 +69,7 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
 
 이차원배열을 사용해 보았기 떄문에 프로그램 틀을 만드는 것은 어렵지 않았다.
 
+**12/8**
 - 자바에서 배열과 문자열은 모두 객체라는 것을 잊지말자ㅠㅠ
   - `==`(비교연산) 대신 `equals()`, `=`(대입연산) 대신 `for문` 으로 복사해야 하는 것을 자꾸 까먹는다. 흑흑..
 
@@ -75,8 +77,8 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
   - 깊은복사(deep copy)라고 불리는 작업을 따로 실행하면 될 것 같다. (현재 코드 수정중)
   - deep copy를 쉽게 하기 위해 기존 배열 타입을 String에서 char로 변경했다. 어차피 이차원배열의 모든 요소가 한 문자라서 가능했다.
   - 참고 링크 : [자바 2차원배열 복사](https://limkydev.tistory.com/177), [자바 1차원/2차원배열의 얕은 복사와 깊은 복사deep copy](https://hoho325.tistory.com/89)
+  - 성공! 다시 이어서 코딩하자 :D 
 
-성공! 다시 이어서 코딩하자 :D 
 - U U' R R' L L' B B' 모두 완성!
 - 이제  "한 번에 여러 문자를 입력받은 경우 순서대로 처리해서 매 과정을 화면에 출력한다." 만 구현하면 된다.
   - 막상 만드려고 보니 꽤 어렵다ㅋㅋㅠㅠㅠ 한번 실행하고 다음문자도 실행해야하는데 자꾸 종료된다.
@@ -87,5 +89,38 @@ Git과 GitHub을 이용하여 소스 코드를 관리하고 GitHub 저장소 URL
   - 원래는 '를 앞 요소에 붙이고 '는 null로 바꾸려 했지만, 굳이 그럴 필요가 없을 것 같아 그냥 '가 아닌 것을 찾아 새로운 ArrayList에 담기로.
     - 참고 링크 : [자바 배열 null 제거](https://www.javaer101.com/ko/article/4316359.html)
   - 기존 명령 체크 메서드 checkInput()의 반복문과, guideInput()의 switch문을 조금 손봤더니 모든 명령을 처리할 수 있게 되었다!
+ 
+
+**12/9**
+- 전역변수 
+  - `sc` : Scanner객체 
+  - `cubeBord` : 빈 3*3 2차원배열 
   
-TODO : 출력형태 다듬고 테스트용sout 삭제하는 등 약간만 다듬어서 1차 완성하자. 내일 이어서!
+- `initCube()` : 제시된 2차원배열을 cubeBoard에 입력하는 메소드 
+- `ready()` : `printCube()`, `start()`, `trimInput()`, `checkInput()` 호출하는 메소드
+- `start()` : 입력 키 설명 및 명령어(input)를 입력받는 메소드
+  - return : input
+- `trimInput(input)` : 입력값을 다듬는 메소드
+  - 한 번에 여러 명령어를 입력받았을 때 처리하기 위해 추가된 메소드.
+  - split("") 한 뒤, 요소가 `'`이면 바로 앞 요소에 `'`를 붙인다.
+  - inputList : 정리된 입력값(명령어들)을 담는 ArrayList
+    - `'`가 아닌 요소들만 inputList에 담는다.
+  - return : inputList
+- `checkInput(inputList)` : 정리된 입력값 배열의 각 요소(anInput)들을 검사하는 메소드.
+  - anInput들이 U U' R R' L L' B B' Q 중 하나인지 검사.
+    - 일치하면 `guideInput(anInput)` 호출.
+    - 일치하지 않으면 오류 메시지를 출력하고, 다시 `start()`-`trimInput()`-`checkInput()` 진행.
+  - 입력값 배열을 모두 수행했으면 `ready()`를 호출. 
+- `guideInput(anInput)` : switch-case문을 통해 입력값에 맞는 메소드로 연결해주는 메소드.
+  - `tempCube` : 바뀐 큐브 입력값을 담을 임시변수.
+- `copyCube(tempCube)` : cubeBoard을 tempCube로 복사하는 2차원배열 복사 메소드.
+  - return : tempCube (cubeBoard가 복사된).
+- `pasteCube(tempCube)` : tempCube를 cubeBoard로 붙여넣기하는 2차원배열 복사 메소드.
+- `whenU()` : 입력값이 U일 때 수행되는 메소드.
+- `whenUDot()'` : 입력값이 U'일 때 수행되는 메소드.
+- `whenR()` : 입력값이 R일 때 수행되는 메소드.
+- `whenRDot()` : 입력값이 R'일 떄 수행되는 메소드. 
+- `whenL()` : 입력값이 R'일 떄 수행되는 메소드. 
+- `whenLDot()` : 입력값이 R'일 떄 수행되는 메소드. 
+- `whenB()` : 입력값이 R'일 떄 수행되는 메소드. 
+- `whenBDot()` : 입력값이 R'일 떄 수행되는 메소드. 
