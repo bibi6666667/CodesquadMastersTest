@@ -154,3 +154,6 @@ whenU()를 구현했다!
 - 해당 면 시계방향/반시계방향 1/4회전 로직은 공통이므로, 메서드로 따로 만들 수 있을 것 같다.
 - copyAtoB 메서드도 6면을 다 복사하는 메서드로 만들면 whenU whenU' .. 메서드 길이를 좀 줄일 수 있을 것 같다.
 일단 기능구현부터 해보고 그 다음 중복코드를 보며 리팩토링을 해봐야겠다.
+
+- whenU(), whenUDot(), whenF(), whenFDot(), whenL(), whenLDot(), whenR(), whenRDot() 까지 모든 큐브회전 메서드 구현 완료.
+- https://rubiks-cube-solver.com/ko/# 와 비교하며 간단한 테스트도 완료했다.🎉
