@@ -27,24 +27,24 @@ public class Step3 { // 루빅스 큐브 구현하기
         char[][] initRight = new char[3][3];
         char[][] initDown = new char[3][3];
         char[][] initBack = new char[3][3];
-        initFront[0] = new char[]{'G', 'G', 'G'}; // initFront : Green
-        initFront[1] = new char[]{'G', 'G', 'G'};
-        initFront[2] = new char[]{'G', 'G', 'G'};
-        initUp[0] = new char[]{'W', 'W', 'W'}; // initUp : White
-        initUp[1] = new char[]{'W', 'W', 'W'};
-        initUp[2] = new char[]{'W', 'W', 'W'};
-        initLeft[0] = new char[]{'O', 'O', 'O'}; // initLeft : Orange
-        initLeft[1] = new char[]{'O', 'O', 'O'};
-        initLeft[2] = new char[]{'O', 'O', 'O'};
-        initRight[0] = new char[]{'R', 'R', 'R'}; // initRight : Red
-        initRight[1] = new char[]{'R', 'R', 'R'};
-        initRight[2] = new char[]{'R', 'R', 'R'};
-        initDown[0] = new char[]{'Y', 'Y', 'Y'}; // initDown : Yellow
-        initDown[1] = new char[]{'Y', 'Y', 'Y'};
-        initDown[2] = new char[]{'Y', 'Y', 'Y'};
-        initBack[0] = new char[]{'B', 'B', 'B'}; // initBack : Blue
-        initBack[1] = new char[]{'B', 'B', 'B'};
-        initBack[2] = new char[]{'B', 'B', 'B'};
+        for (int i = 0; i < 3; i++) {
+            initFront[i] = new char[]{'G', 'G', 'G'}; // initFront : Green
+        }
+        for (int i = 0; i < 3; i++) {
+            initUp[i] = new char[]{'W', 'W', 'W'}; // initUp : White
+        }
+        for (int i = 0; i < 3; i++) {
+            initLeft[i] = new char[]{'O', 'O', 'O'}; // initLeft : Orange
+        }
+        for (int i = 0; i < 3; i++) {
+            initRight[i] = new char[]{'R', 'R', 'R'}; // initRight : Red
+        }
+        for (int i = 0; i < 3; i++) {
+            initDown[i] = new char[]{'Y', 'Y', 'Y'}; // initDown : Yellow
+        }
+        for (int i = 0; i < 3; i++) {
+            initBack[i] = new char[]{'B', 'B', 'B'}; // initBack : Blue
+        }
         cubeFront = initFront;
         cubeUp = initUp;
         cubeLeft = initLeft;
@@ -79,13 +79,16 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public String start() {
         System.out.println("\n❓ HELP -------------------- ↗ 「전개도 도움말」 ------------------------------");
-        System.out.println("❗  U = 윗면, L = 왼쪽면, F = 앞면, R = 오른쪽면, B = 뒷면, D = 아랫면을 뜻합니다.");
+        System.out.println(">>   U = Up = 윗면, L = Left = 왼쪽 면, F = Front = 앞면, ");
+        System.out.println(">>   R = Right = 오른쪽 면, B = Back = 뒷면, D = Down = 아랫면을 뜻합니다.");
         System.out.println("--------------------------------------------------------------------------");
         System.out.println("💬 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
-        System.out.println("U : 윗쪽 면을 시계방향으로 1/4 회전, U' : 윗쪽 면을 반시계방향으로 1/4 회전");
-        System.out.println("F : 앞쪽 면을 시계방향으로 1/4 회전, F' : 앞쪽 면을 반시계방향으로 1/4 회전");
+        System.out.println("U : 윗면을 시계방향으로 1/4 회전, U' : 윗쪽 면을 반시계방향으로 1/4 회전");
+        System.out.println("F : 앞면을 시계방향으로 1/4 회전, F' : 앞쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전, L' : 왼쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("R : 오른쪽 면을 시계방향으로 1/4 회전, R' : 오른쪽 면을 반시계방향으로 1/4 회전");
+        System.out.println("B : 뒷면을 시계방향으로 1/4 회전, B' : 뒷면을 반시계방향으로 1/4 회전");
+        System.out.println("D : 아랫면을 시계방향으로 1/4 회전, D' : 아랫면을 반시계방향으로 1/4 회전");
         System.out.println("Q : 프로그램 종료");
         System.out.print("CUBE > ");
         String input = sc.nextLine();
@@ -117,7 +120,9 @@ public class Step3 { // 루빅스 큐브 구현하기
             String anInput = inputList.get(i);
             if (anInput.equals("U") || anInput.equals("U'") || anInput.equals("F") || anInput.equals("F'")
                     || anInput.equals("L") || anInput.equals("L'") || anInput.equals("R") || anInput.equals("R'")
-                    || anInput.equals("Q")) { // U U' F F' L L' R R' Q 일 때만.
+                    || anInput.equals("B") || anInput.equals("B'") || anInput.equals("D") || anInput.equals("D'")
+                    || anInput.equals("Q")) { // U U' F F' L L' R R' B B' D D' Q 일 때만.
+                // TODO : U2 L2 F2 R2 B2 D2도 해야 함. trimInput()-checkInput()-guideInput() 모두.
                 guideInput(anInput);
             } else {
                 System.out.println("❗ 지정되지 않은 명령어가 포함되어 있습니다. 다시 입력해 주세요.");
@@ -164,6 +169,18 @@ public class Step3 { // 루빅스 큐브 구현하기
             case "R'" :
                 whenRDot(tempRight, tempUp, tempFront, tempDown, tempBack);
                 break;
+            case "B" :
+                whenB(tempBack, tempUp, tempLeft, tempRight, tempDown);
+                break;
+            case "B'" :
+                whenBDot(tempBack, tempUp, tempLeft, tempRight, tempDown);
+                break;
+            case "D" :
+                whenD(tempDown, tempLeft, tempFront, tempRight, tempBack);
+                break;
+            case "D'" :
+                whenDDot(tempDown, tempLeft, tempFront, tempRight, tempBack);
+                break;
             case "Q" :
                 sc.close();
                 System.out.println("종료메시지");
@@ -174,8 +191,6 @@ public class Step3 { // 루빅스 큐브 구현하기
         System.out.println(); // 줄바꿈
     }
 
-    // TODO :  guideInput()과 함께 whenU(), whenU'() .. 및 copyCube() 구현하기.
-
     public void copyAtoB(char[][] cubeA, char[][] cubeB) { // A를 B에 복사
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j ++){
@@ -184,7 +199,27 @@ public class Step3 { // 루빅스 큐브 구현하기
         }
     }
 
-    // public void pasteCube() {} // 되도록 copyCube()만으로 해결하기?
+    public void clockWise(char[][] temp, char[][] cube){ // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
+        temp[0][0] = cube[2][0];
+        temp[0][1] = cube[1][0];
+        temp[0][2] = cube[0][0];
+        temp[1][0] = cube[2][1];
+        temp[1][2] = cube[0][1];
+        temp[2][0] = cube[2][2];
+        temp[2][1] = cube[1][2];
+        temp[2][2] = cube[0][2];
+    }
+    
+    public void counterClockWise(char[][] temp, char[][] cube){ // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
+        temp[0][0] = cube[0][2];
+        temp[0][1] = cube[1][2];
+        temp[0][2] = cube[2][2];
+        temp[1][0] = cube[0][1];
+        temp[1][2] = cube[2][1];
+        temp[2][0] = cube[0][0];
+        temp[2][1] = cube[1][0];
+        temp[2][2] = cube[2][0];
+    }
 
     public void whenU(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack) {
         System.out.println("U : 윗쪽 면을 시계방향으로 1/4 회전");
@@ -193,14 +228,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeRight, tempRight);
         copyAtoB(cubeBack, tempBack);
-        tempUp[0][0] = cubeUp[2][0]; // U면 시계방향 1/4 회전
-        tempUp[0][1] = cubeUp[1][0];
-        tempUp[0][2] = cubeUp[0][0];
-        tempUp[1][0] = cubeUp[2][1];
-        tempUp[1][2] = cubeUp[0][1];
-        tempUp[2][0] = cubeUp[2][2];
-        tempUp[2][1] = cubeUp[1][2];
-        tempUp[2][2] = cubeUp[0][2];
+        clockWise(tempUp, cubeUp);// U면 시계방향 1/4 회전
         tempLeft[0][0] = cubeFront[0][0]; // U면의 옆면 - L면 변경사항
         tempLeft[0][1] = cubeFront[0][1];
         tempLeft[0][2] = cubeFront[0][2];
@@ -227,14 +255,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeRight, tempRight);
         copyAtoB(cubeBack, tempBack);
-        tempUp[0][0] = cubeUp[0][2]; // U면 반시계방향 1/4 회전
-        tempUp[0][1] = cubeUp[1][2];
-        tempUp[0][2] = cubeUp[2][2];
-        tempUp[1][0] = cubeUp[0][1];
-        tempUp[1][2] = cubeUp[2][1];
-        tempUp[2][0] = cubeUp[0][0];
-        tempUp[2][1] = cubeUp[1][0];
-        tempUp[2][2] = cubeUp[2][0];
+        counterClockWise(tempUp, cubeUp);// U면 반시계방향 1/4 회전
         tempLeft[0][0] = cubeBack[0][0]; // U면의 옆면 - L면 변경사항
         tempLeft[0][1] = cubeBack[0][1];
         tempLeft[0][2] = cubeBack[0][2];
@@ -261,14 +282,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeLeft, tempLeft);
         copyAtoB(cubeRight, tempRight);
         copyAtoB(cubeDown, tempDown);
-        tempFront[0][0] = cubeFront[2][0]; // F면 시계방향 1/4 회전
-        tempFront[0][1] = cubeFront[1][0];
-        tempFront[0][2] = cubeFront[0][0];
-        tempFront[1][0] = cubeFront[2][1];
-        tempFront[1][2] = cubeFront[0][1];
-        tempFront[2][0] = cubeFront[2][2];
-        tempFront[2][1] = cubeFront[1][2];
-        tempFront[2][2] = cubeFront[0][2];
+        clockWise(tempFront, cubeFront);// F면 시계방향 1/4 회전
         tempUp[2][0] = cubeLeft[2][2];// F면의 옆면 - U면 변경사항
         tempUp[2][1] = cubeLeft[1][2];
         tempUp[2][2] = cubeLeft[0][2];
@@ -295,14 +309,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeLeft, tempLeft);
         copyAtoB(cubeRight, tempRight);
         copyAtoB(cubeDown, tempDown);
-        tempFront[0][0] = cubeFront[0][2]; // F면 반시계방향 1/4 회전
-        tempFront[0][1] = cubeFront[1][2];
-        tempFront[0][2] = cubeFront[2][2];
-        tempFront[1][0] = cubeFront[0][1];
-        tempFront[1][2] = cubeFront[2][1];
-        tempFront[2][0] = cubeFront[0][0];
-        tempFront[2][1] = cubeFront[1][0];
-        tempFront[2][2] = cubeFront[2][0];
+        counterClockWise(tempFront, cubeFront);// F면 반시계방향 1/4 회전
         tempUp[2][0] = cubeRight[0][0];// F면의 옆면 - U면 변경사항
         tempUp[2][1] = cubeRight[1][0];
         tempUp[2][2] = cubeRight[2][0];
@@ -329,14 +336,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeDown, tempDown);
         copyAtoB(cubeBack, tempBack);
-        tempLeft[0][0] = cubeLeft[2][0]; // L면 시계방향 1/4 회전
-        tempLeft[0][1] = cubeLeft[1][0];
-        tempLeft[0][2] = cubeLeft[0][0];
-        tempLeft[1][0] = cubeLeft[2][1];
-        tempLeft[1][2] = cubeLeft[0][1];
-        tempLeft[2][0] = cubeLeft[2][2];
-        tempLeft[2][1] = cubeLeft[1][2];
-        tempLeft[2][2] = cubeLeft[0][2];
+        clockWise(tempLeft, cubeLeft);// L면 시계방향 1/4 회전
         tempUp[0][0] = cubeBack[2][2];// L면의 옆면 - U면 변경사항
         tempUp[1][0] = cubeBack[1][2];
         tempUp[2][0] = cubeBack[0][2];
@@ -363,14 +363,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeDown, tempDown);
         copyAtoB(cubeBack, tempBack);
-        tempLeft[0][0] = cubeLeft[0][2]; // L면 반시계방향 1/4 회전
-        tempLeft[0][1] = cubeLeft[1][2];
-        tempLeft[0][2] = cubeLeft[2][2];
-        tempLeft[1][0] = cubeLeft[0][1];
-        tempLeft[1][2] = cubeLeft[2][1];
-        tempLeft[2][0] = cubeLeft[0][0];
-        tempLeft[2][1] = cubeLeft[1][0];
-        tempLeft[2][2] = cubeLeft[2][0];
+        counterClockWise(tempLeft, cubeLeft);// L면 반시계방향 1/4 회전
         tempUp[0][0] = cubeFront[0][0];// L면의 옆면 - U면 변경사항
         tempUp[1][0] = cubeFront[1][0];
         tempUp[2][0] = cubeFront[2][0];
@@ -397,14 +390,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeDown, tempDown);
         copyAtoB(cubeBack, tempBack);
-        tempRight[0][0] = cubeRight[2][0]; // R면 시계방향 1/4 회전
-        tempRight[0][1] = cubeRight[1][0];
-        tempRight[0][2] = cubeRight[0][0];
-        tempRight[1][0] = cubeRight[2][1];
-        tempRight[1][2] = cubeRight[0][1];
-        tempRight[2][0] = cubeRight[2][2];
-        tempRight[2][1] = cubeRight[1][2];
-        tempRight[2][2] = cubeRight[0][2];
+        clockWise(tempRight, cubeRight);// R면 시계방향 1/4 회전
         tempUp[0][2] = cubeFront[0][2];// R면의 옆면 - U면 변경사항
         tempUp[1][2] = cubeFront[1][2];
         tempUp[2][2] = cubeFront[2][2];
@@ -431,14 +417,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeDown, tempDown);
         copyAtoB(cubeBack, tempBack);
-        tempRight[0][0] = cubeRight[0][2]; // R면 반시계방향 1/4 회전
-        tempRight[0][1] = cubeRight[1][2];
-        tempRight[0][2] = cubeRight[2][2];
-        tempRight[1][0] = cubeRight[0][1];
-        tempRight[1][2] = cubeRight[2][1];
-        tempRight[2][0] = cubeRight[0][0];
-        tempRight[2][1] = cubeRight[1][0];
-        tempRight[2][2] = cubeRight[2][0];
+        counterClockWise(tempRight, cubeRight);// R면 반시계방향 1/4 회전
         tempUp[0][2] = cubeBack[2][0];// R면의 옆면 - U면 변경사항
         tempUp[1][2] = cubeBack[1][0];
         tempUp[2][2] = cubeBack[0][0];
@@ -456,6 +435,22 @@ public class Step3 { // 루빅스 큐브 구현하기
         copyAtoB(tempFront, cubeFront);
         copyAtoB(tempDown, cubeDown);
         copyAtoB(tempBack, cubeBack);
+    }
+
+    public void whenB(char[][] tempBack, char[][] tempUp, char[][] tempLeft, char[][] tempRight, char[][] tempDown) {
+
+    }
+
+    public void whenBDot(char[][] tempBack, char[][] tempUp, char[][] tempLeft, char[][] tempRight, char[][] tempDown) {
+
+    }
+
+    public void whenD(char[][] tempDown, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack) {
+
+    }
+
+    public void whenDDot(char[][] tempDown, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack) {
+
     }
 } // class
 
