@@ -189,7 +189,7 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public void whenU(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack) {
         System.out.println("U : 윗쪽 면을 시계방향으로 1/4 회전");
-        copyAtoB(cubeUp, tempUp); // tempUp에 cubeUp 내용 복사
+        copyAtoB(cubeUp, tempUp); // 임시변수에 cube 내용 복사
         copyAtoB(cubeLeft, tempLeft);
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeRight, tempRight);
@@ -214,7 +214,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         tempRight[0][0] = cubeBack[0][0];// U면의 옆면 - R면 변경사항
         tempRight[0][1] = cubeBack[0][1];
         tempRight[0][2] = cubeBack[0][2];
-        copyAtoB(tempUp, cubeUp); // 바뀐 tempUp을 cubeUp에 복사
+        copyAtoB(tempUp, cubeUp); // 바뀐 임시변수를 cube에 복사
         copyAtoB(tempLeft, cubeLeft);
         copyAtoB(tempFront, cubeFront);
         copyAtoB(tempRight, cubeRight);
@@ -223,7 +223,7 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public void whenUDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack) {
         System.out.println("U' : 윗쪽 면을 반시계방향으로 1/4 회전");
-        copyAtoB(cubeUp, tempUp); // tempUp에 cubeUp 내용 복사
+        copyAtoB(cubeUp, tempUp); //임시변수에 cube 내용 복사
         copyAtoB(cubeLeft, tempLeft);
         copyAtoB(cubeFront, tempFront);
         copyAtoB(cubeRight, tempRight);
@@ -257,7 +257,7 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public void whenF(char[][] tempFront, char[][] tempUp, char[][] tempLeft, char[][] tempRight, char[][] tempDown) {
         System.out.println("F : 앞쪽 면을 시계방향으로 1/4 회전");
-        copyAtoB(cubeFront, tempFront);// tempFront에 cubeFront 내용 복사
+        copyAtoB(cubeFront, tempFront);// 임시변수에 cube 내용 복사
         copyAtoB(cubeUp, tempUp);
         copyAtoB(cubeLeft, tempLeft);
         copyAtoB(cubeRight, tempRight);
@@ -291,14 +291,104 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public void whenFDot(char[][] tempFront, char[][] tempUp, char[][] tempLeft, char[][] tempRight, char[][] tempDown) {
         System.out.println("F' : 앞쪽 면을 반시계방향으로 1/4 회전");
+        copyAtoB(cubeFront, tempFront); // 임시변수에 cube 내용 복사
+        copyAtoB(cubeUp, tempUp);
+        copyAtoB(cubeLeft, tempLeft);
+        copyAtoB(cubeRight, tempRight);
+        copyAtoB(cubeDown, tempDown);
+        tempFront[0][0] = cubeFront[0][2]; // F면 반시계방향 1/4 회전
+        tempFront[0][1] = cubeFront[1][2];
+        tempFront[0][2] = cubeFront[2][2];
+        tempFront[1][0] = cubeFront[0][1];
+        tempFront[1][2] = cubeFront[2][1];
+        tempFront[2][0] = cubeFront[0][0];
+        tempFront[2][1] = cubeFront[1][0];
+        tempFront[2][2] = cubeFront[2][0];
+        tempUp[2][0] = cubeRight[0][0];// F면의 옆면 - U면 변경사항
+        tempUp[2][1] = cubeRight[1][0];
+        tempUp[2][2] = cubeRight[2][0];
+        tempLeft[0][2] = cubeUp[2][2]; // F면의 옆면 - L면 변경사항
+        tempLeft[1][2] = cubeUp[2][1];
+        tempLeft[2][2] = cubeUp[2][0];
+        tempRight[0][0] = cubeDown[0][2];// F면의 옆면 - R면 변경사항
+        tempRight[1][0] = cubeDown[0][1];
+        tempRight[2][0] = cubeDown[0][0];
+        tempDown[0][0] = cubeLeft[0][2];// F면의 옆면 - D면 변경사항
+        tempDown[0][1] = cubeLeft[1][2];
+        tempDown[0][2] = cubeLeft[2][2];
+        copyAtoB(tempFront, cubeFront);// 바뀐 임시변수를 cube에 복사
+        copyAtoB(tempUp, cubeUp);
+        copyAtoB(tempLeft, cubeLeft);
+        copyAtoB(tempRight, cubeRight);
+        copyAtoB(tempDown, cubeDown);
     }
 
     public void whenL(char[][] tempLeft, char[][] tempUp, char[][] tempFront, char[][] tempDown, char[][] tempBack) {
         System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전");
+        copyAtoB(cubeLeft, tempLeft);// 임시변수에 cube 내용 복사
+        copyAtoB(cubeUp, tempUp);
+        copyAtoB(cubeFront, tempFront);
+        copyAtoB(cubeDown, tempDown);
+        copyAtoB(cubeBack, tempBack);
+        tempLeft[0][0] = cubeLeft[2][0]; // L면 시계방향 1/4 회전
+        tempLeft[0][1] = cubeLeft[1][0];
+        tempLeft[0][2] = cubeLeft[0][0];
+        tempLeft[1][0] = cubeLeft[2][1];
+        tempLeft[1][2] = cubeLeft[0][1];
+        tempLeft[2][0] = cubeLeft[2][2];
+        tempLeft[2][1] = cubeLeft[1][2];
+        tempLeft[2][2] = cubeLeft[0][2];
+        tempUp[0][0] = cubeBack[2][2];// L면의 옆면 - U면 변경사항
+        tempUp[1][0] = cubeBack[1][2];
+        tempUp[2][0] = cubeBack[0][2];
+        tempFront[0][0] = cubeUp[0][0];// L면의 옆면 - R면 변경사항
+        tempFront[1][0] = cubeUp[1][0];
+        tempFront[2][0] = cubeUp[2][0];
+        tempDown[0][0] = cubeFront[0][0];// L면의 옆면 - D면 변경사항
+        tempDown[1][0] = cubeFront[1][0];
+        tempDown[2][0] = cubeFront[2][0];
+        tempBack[0][2] = cubeDown[2][0]; // L면의 옆면 - L면 변경사항
+        tempBack[1][2] = cubeDown[1][0];
+        tempBack[2][2] = cubeDown[0][0];
+        copyAtoB(tempLeft, cubeLeft);// 바뀐 임시변수를 cube에 복사
+        copyAtoB(tempUp, cubeUp);
+        copyAtoB(tempFront, cubeFront);
+        copyAtoB(tempDown, cubeDown);
+        copyAtoB(tempBack, cubeBack);
     }
 
     public void whenLDot(char[][] tempLeft, char[][] tempUp, char[][] tempFront, char[][] tempDown, char[][] tempBack) {
         System.out.println("L' : 왼쪽 면을 반시계방향으로 1/4 회전");
+        copyAtoB(cubeLeft, tempLeft);// 임시변수에 cube 내용 복사
+        copyAtoB(cubeUp, tempUp);
+        copyAtoB(cubeFront, tempFront);
+        copyAtoB(cubeDown, tempDown);
+        copyAtoB(cubeBack, tempBack);
+        tempLeft[0][0] = cubeLeft[0][2]; // L면 반시계방향 1/4 회전
+        tempLeft[0][1] = cubeLeft[1][2];
+        tempLeft[0][2] = cubeLeft[2][2];
+        tempLeft[1][0] = cubeLeft[0][1];
+        tempLeft[1][2] = cubeLeft[2][1];
+        tempLeft[2][0] = cubeLeft[0][0];
+        tempLeft[2][1] = cubeLeft[1][0];
+        tempLeft[2][2] = cubeLeft[2][0];
+        tempUp[0][0] = cubeFront[0][0];// L면의 옆면 - U면 변경사항
+        tempUp[1][0] = cubeFront[1][0];
+        tempUp[2][0] = cubeFront[2][0];
+        tempFront[0][0] = cubeDown[0][0]; // L면의 옆면 - F면 변경사항
+        tempFront[1][0] = cubeDown[1][0];
+        tempFront[2][0] = cubeDown[2][0];
+        tempDown[0][0] = cubeBack[2][2];// L면의 옆면 - D면 변경사항
+        tempDown[1][0] = cubeBack[1][2];
+        tempDown[2][0] = cubeBack[0][2];
+        tempBack[0][2] = cubeUp[2][0];// L면의 옆면 - B면 변경사항
+        tempBack[1][2] = cubeUp[1][0];
+        tempBack[2][2] = cubeUp[0][0];
+        copyAtoB(tempLeft, cubeLeft);// 바뀐 임시변수를 cube에 복사
+        copyAtoB(tempUp, cubeUp);
+        copyAtoB(tempFront, cubeFront);
+        copyAtoB(tempDown, cubeDown);
+        copyAtoB(tempBack, cubeBack);
     }
 
     public void whenR(char[][] tempRight, char[][] tempUp, char[][] tempFront, char[][] tempDown, char[][] tempBack) {
