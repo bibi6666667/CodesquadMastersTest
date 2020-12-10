@@ -78,18 +78,25 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public String start() {
-        System.out.println("\n❓ HELP -------------------- ↗ 「전개도 도움말」 ------------------------------");
+        System.out.println("\n❓ ------------------------- ↗ 「전개도 도움말」 ------------------------------");
         System.out.println(">>   U = Up = 윗면, L = Left = 왼쪽 면, F = Front = 앞면, ");
         System.out.println(">>   R = Right = 오른쪽 면, B = Back = 뒷면, D = Down = 아랫면을 뜻합니다.");
         System.out.println("--------------------------------------------------------------------------");
-        System.out.println("💬 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
+        System.out.println("👉 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
         System.out.println("U : 윗면을 시계방향으로 1/4 회전, U' : 윗쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("F : 앞면을 시계방향으로 1/4 회전, F' : 앞쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전, L' : 왼쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("R : 오른쪽 면을 시계방향으로 1/4 회전, R' : 오른쪽 면을 반시계방향으로 1/4 회전");
         System.out.println("B : 뒷면을 시계방향으로 1/4 회전, B' : 뒷면을 반시계방향으로 1/4 회전");
         System.out.println("D : 아랫면을 시계방향으로 1/4 회전, D' : 아랫면을 반시계방향으로 1/4 회전");
-        System.out.println("Q : 프로그램 종료");
+        System.out.println("👉 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/2바퀴' 돌아갑니다.");
+        System.out.println("U2 : 윗면을 시계방향으로 1/2 회전");
+        System.out.println("L2 : 왼쪽 면을 시계방향으로 1/2 회전");
+        System.out.println("F2 : 앞면을 시계방향으로 1/2 회전");
+        System.out.println("R2 : 오른쪽 면을 시계방향으로 1/2 회전");
+        System.out.println("B2 : 뒷면을 시계방향으로 1/2 회전");
+        System.out.println("D2 : 아랫면을 시계방향으로 1/2 회전");
+        System.out.println("⛔ Q 를 입력하면 프로그램이 종료됩니다.");
         System.out.print("CUBE > ");
         String input = sc.nextLine();
         return input;
@@ -99,15 +106,18 @@ public class Step3 { // 루빅스 큐브 구현하기
         String[] inputArr = input.split("");
         int inputArrLength = inputArr.length;
         ArrayList<String> inputList = new ArrayList<>();
-        for (int i = 0; i < inputArrLength; i++) {
+        for (int i = 0; i < inputArrLength; i++) { // 요소가 '나 2이면 직전 요소에 '나 2를 붙이기
             String inputElement = inputArr[i];
             if (inputElement.equals("'")) {
                 inputArr[i - 1] = inputArr[i - 1] + "'";
             }
+            if (inputElement.equals("2")) {
+                inputArr[i - 1] = inputArr[i - 1] + "2";
+            }
         }
-        for (int i = 0; i < inputArrLength ; i++) {
+        for (int i = 0; i < inputArrLength; i++) { // 요소가 '이 아니고 2가 아닐 때 inputList에 추가
             String inputElement = inputArr[i];
-            if (!inputElement.equals("'")) {// 요소가 '이 아닐 때 inputList에 추가
+            if (!inputElement.equals("'") && !inputElement.equals("2")) {
                 inputList.add(inputElement);
             }
         }
@@ -121,8 +131,8 @@ public class Step3 { // 루빅스 큐브 구현하기
             if (anInput.equals("U") || anInput.equals("U'") || anInput.equals("F") || anInput.equals("F'")
                     || anInput.equals("L") || anInput.equals("L'") || anInput.equals("R") || anInput.equals("R'")
                     || anInput.equals("B") || anInput.equals("B'") || anInput.equals("D") || anInput.equals("D'")
-                    || anInput.equals("Q")) { // U U' F F' L L' R R' B B' D D' Q 일 때만.
-                // TODO : U2 L2 F2 R2 B2 D2도 해야 함. trimInput()-checkInput()-guideInput() 모두.
+                    || anInput.equals("U2") || anInput.equals("L2") || anInput.equals("F2") || anInput.equals("R2")
+                    || anInput.equals("B2") || anInput.equals("D2") || anInput.equals("Q")) {
                 guideInput(anInput);
             } else {
                 System.out.println("❗ 지정되지 않은 명령어가 포함되어 있습니다. 다시 입력해 주세요.");
@@ -134,7 +144,7 @@ public class Step3 { // 루빅스 큐브 구현하기
                 ready();
             }
         }
-       // ready(); - 이렇게 고쳐도 동일?
+        // ready(); - 이렇게 고쳐도 동일?
     }
 
     public void guideInput(String anInput) {
@@ -144,62 +154,86 @@ public class Step3 { // 루빅스 큐브 구현하기
         char[][] tempRight = new char[3][3];
         char[][] tempDown = new char[3][3];
         char[][] tempBack = new char[3][3];
-        switch(anInput) {
-            case "U" :
+        switch (anInput) {
+            case "U":
+            case "U2":
                 whenU(tempUp, tempLeft, tempFront, tempRight, tempBack);
+                if (anInput.equals("U2")) whenU(tempUp, tempLeft, tempFront, tempRight, tempBack);
                 break;
-            case "U'" :
+            case "U'":
                 whenUDot(tempUp, tempLeft, tempFront, tempRight, tempBack);
                 break;
-            case "F" :
+            case "F":
+            case "F2":
                 whenF(tempFront, tempUp, tempLeft, tempRight, tempDown);
+                if (anInput.equals("F2")) whenF(tempFront, tempUp, tempLeft, tempRight, tempDown);
                 break;
-            case "F'" :
+            case "F'":
                 whenFDot(tempFront, tempUp, tempLeft, tempRight, tempDown);
                 break;
-            case "L" :
+            case "L":
+            case "L2":
                 whenL(tempLeft, tempUp, tempFront, tempDown, tempBack);
+                if (anInput.equals("L2")) whenL(tempLeft, tempUp, tempFront, tempDown, tempBack);
                 break;
-            case "L'" :
+            case "L'":
                 whenLDot(tempLeft, tempUp, tempFront, tempDown, tempBack);
                 break;
-            case "R" :
+            case "R":
+            case "R2":
                 whenR(tempRight, tempUp, tempFront, tempDown, tempBack);
+                if (anInput.equals("R2")) whenR(tempRight, tempUp, tempFront, tempDown, tempBack);
                 break;
-            case "R'" :
+            case "R'":
                 whenRDot(tempRight, tempUp, tempFront, tempDown, tempBack);
                 break;
-            case "B" :
+            case "B":
+            case "B2":
                 whenB(tempBack, tempUp, tempLeft, tempRight, tempDown);
+                if (anInput.equals("B2")) whenB(tempBack, tempUp, tempLeft, tempRight, tempDown);
                 break;
-            case "B'" :
+            case "B'":
                 whenBDot(tempBack, tempUp, tempLeft, tempRight, tempDown);
                 break;
-            case "D" :
+            case "D":
+            case "D2":
                 whenD(tempDown, tempLeft, tempFront, tempRight, tempBack);
+                if (anInput.equals("D2")) whenD(tempDown, tempLeft, tempFront, tempRight, tempBack);
                 break;
-            case "D'" :
+            case "D'":
                 whenDDot(tempDown, tempLeft, tempFront, tempRight, tempBack);
                 break;
-            case "Q" :
+            case "Q":
                 sc.close();
                 System.out.println("종료메시지");
                 System.exit(0);
                 break;
         }
-        printCube();
+        // printCube();
         System.out.println(); // 줄바꿈
     }
 
     public void copyAtoB(char[][] cubeA, char[][] cubeB) { // A를 B에 복사
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j ++){
+            for (int j = 0; j < 3; j++) {
                 cubeB[i][j] = cubeA[i][j];
             }
         }
     }
 
-    public void clockWise(char[][] temp, char[][] cube){ // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
+    public void copyToTemp(){
+
+    }
+
+    public void copyToCube(){ //파라미터5개
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                //cubeB[i][j] = cubeA[i][j];
+            }
+        }
+    }
+
+    public void clockWise(char[][] temp, char[][] cube) { // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
         temp[0][0] = cube[2][0];
         temp[0][1] = cube[1][0];
         temp[0][2] = cube[0][0];
@@ -209,8 +243,8 @@ public class Step3 { // 루빅스 큐브 구현하기
         temp[2][1] = cube[1][2];
         temp[2][2] = cube[0][2];
     }
-    
-    public void counterClockWise(char[][] temp, char[][] cube){ // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
+
+    public void counterClockWise(char[][] temp, char[][] cube) { // 해당 면 cube를 시계방향으로 1/4 회전해 temp에 대입.
         temp[0][0] = cube[0][2];
         temp[0][1] = cube[1][2];
         temp[0][2] = cube[2][2];
@@ -402,7 +436,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         tempDown[2][2] = cubeBack[0][0];
         tempBack[0][0] = cubeUp[2][2]; // R면의 옆면 - B면 변경사항
         tempBack[1][0] = cubeUp[1][2];
-        tempBack[2][0] = cubeUp[0][0];
+        tempBack[2][0] = cubeUp[0][2];
         copyAtoB(tempRight, cubeRight);// 바뀐 임시변수를 cube에 복사
         copyAtoB(tempUp, cubeUp);
         copyAtoB(tempFront, cubeFront);
