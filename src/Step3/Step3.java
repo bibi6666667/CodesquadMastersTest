@@ -2,6 +2,7 @@ package Step3;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Step3 { // 루빅스 큐브 구현하기
     Scanner sc = new Scanner(System.in);
@@ -19,6 +20,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         Step3 step3 = new Step3();
         System.out.println("🗝 루빅스 큐브를 풀어 보세요!");
         step3.initCube();
+        step3.scramble(); // 처음부터 섞어서 보여주기
         step3.ready();
     }
 
@@ -59,7 +61,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void printCube() {
-        System.out.println("↓ 현재 큐브");
+        // System.out.println("↓ 현재 큐브");
         for (int i = 0; i < 3; i++) {
             System.out.printf("%n %6c %1c %1c %1c %6c", ' ', cubeUp[i][0], cubeUp[i][1], cubeUp[i][2], ' ');
         }
@@ -97,6 +99,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         System.out.println("⛔ Q 를 입력하면 프로그램이 종료됩니다.");
         System.out.print("CUBE > ");
         String input = sc.nextLine();
+        System.out.println(); // 개행
         return input;
     }
 
@@ -151,51 +154,81 @@ public class Step3 { // 루빅스 큐브 구현하기
         char[][] tempDown = new char[3][3];
         switch (anInput) {
             case "U":
-            case "U2":
+                System.out.println("U : 윗면을 시계방향으로 1/4 회전");
                 whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("U2")) whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "U2":
+                System.out.println("U2 : 윗면을 시계방향으로 1/2 회전");
+                whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "U'":
+                System.out.println("U' : 윗쪽 면을 반시계방향으로 1/4 회전");
                 whenUDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "F":
-            case "F2":
+                System.out.println("F : 앞면을 시계방향으로 1/4 회전");
                 whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("F2")) whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "F2":
+                System.out.println("F2 : 앞면을 시계방향으로 1/2 회전");
+                whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "F'":
+                System.out.println("F' : 앞쪽 면을 반시계방향으로 1/4 회전");
                 whenFDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "L":
-            case "L2":
+                System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전");
                 whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("L2")) whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "L2":
+                System.out.println("L2 : 왼쪽 면을 시계방향으로 1/2 회전");
+                whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "L'":
+                System.out.println("L' : 왼쪽 면을 반시계방향으로 1/4 회전");
                 whenLDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "R":
-            case "R2":
+                System.out.println("R : 오른쪽 면을 시계방향으로 1/4 회전");
                 whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("R2")) whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "R2":
+                System.out.println("R2 : 오른쪽 면을 시계방향으로 1/2 회전");
+                whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "R'":
+                System.out.println("R' : 오른쪽 면을 반시계방향으로 1/4 회전");
                 whenRDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "B":
-            case "B2":
+                System.out.println("B : 뒷면을 시계방향으로 1/4 회전");
                 whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("B2")) whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "B2":
+                System.out.println("B2 : 뒷면을 시계방향으로 1/2 회전");
+                whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "B'":
+                System.out.println("B' : 뒷면을 반시계방향으로 1/4 회전");
                 whenBDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "D":
-            case "D2":
+                System.out.println("D : 아랫면을 시계방향으로 1/4 회전");
                 whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-                if (anInput.equals("D2")) whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                break;
+            case "D2":
+                System.out.println("D2 : 아랫면을 시계방향으로 1/2 회전");
+                whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+                whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "D'":
+                System.out.println("D' : 아랫면을 반시계방향으로 1/4 회전");
                 whenDDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "Q":
@@ -207,18 +240,51 @@ public class Step3 { // 루빅스 큐브 구현하기
         System.out.println(); // 줄바꿈
     }
 
+    public void scramble() { // 섞기 메서드
+        char[][] tempUp = new char[3][3];
+        char[][] tempLeft = new char[3][3];
+        char[][] tempFront = new char[3][3];
+        char[][] tempRight = new char[3][3];
+        char[][] tempBack = new char[3][3];
+        char[][] tempDown = new char[3][3];
+        Random random = new Random();
+        int randomNum = random.nextInt(6); // 0~5까지 랜덤하게 호출
+        for (int i = 0; i < randomNum; i++) {
+            whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenBDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenLDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum; i++) {
+            whenDDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum; i++) {
+            whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenFDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum; i++) {
+            whenRDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenUDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        System.out.println("\n\n 🔀 🔀 큐브를 무작위로 섞었습니다.");
+        printCube();
+    }
+
     public void terminate() { // 종료 메서드
         sc.close();
         long timeGap = calTime();
         long timeGapMinute = (timeGap) / (1000 * 60); // 밀리초를 분 단위로 나누기
         long timeGapSecond = (timeGap - (timeGapMinute * 1000 * 60)) / 1000; // 분을 다시 밀리초단위로 바꿔서 밀리초-분을 초 단위로 나누기
-        System.out.println("🕐 경과시간 : " + timeGapMinute +"분 " + timeGapSecond + "초");
+        System.out.println("🕐 경과시간 : " + timeGapMinute + "분 " + timeGapSecond + "초");
         System.out.println("🔄 조작 횟수 : " + countNum);
         System.out.println("⛔ 프로그램 종료. 이용해 주셔서 감사합니다.");
         System.exit(0);
     }
 
-    public long calTime(){
+    public long calTime() {
         long startTime = countTime;
         long endTime = System.currentTimeMillis();
         long timeGap = endTime - startTime;
@@ -275,7 +341,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenU(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("U : 윗쪽 면을 시계방향으로 1/4 회전");
+        // U : 윗쪽 면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempUp, cubeUp);// U면 시계방향 1/4 회전
         tempLeft[0][0] = cubeFront[0][0]; // U면의 옆면 - L면 변경사항
@@ -294,7 +360,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenUDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("U' : 윗쪽 면을 반시계방향으로 1/4 회전");
+        // U' : 윗쪽 면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         counterClockWise(tempUp, cubeUp);// U면 반시계방향 1/4 회전
         tempLeft[0][0] = cubeBack[0][0]; // U면의 옆면 - L면 변경사항
@@ -314,7 +380,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenF(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("F : 앞쪽 면을 시계방향으로 1/4 회전");
+        // F : 앞쪽 면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempFront, cubeFront);// F면 시계방향 1/4 회전
         tempUp[2][0] = cubeLeft[2][2];// F면의 옆면 - U면 변경사항
@@ -333,7 +399,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenFDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("F' : 앞쪽 면을 반시계방향으로 1/4 회전");
+        // F' : 앞쪽 면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); // 임시변수에 cube 내용 복사
         counterClockWise(tempFront, cubeFront);// F면 반시계방향 1/4 회전
         tempUp[2][0] = cubeRight[0][0];// F면의 옆면 - U면 변경사항
@@ -352,7 +418,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenL(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전");
+        // L : 왼쪽 면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempLeft, cubeLeft);// L면 시계방향 1/4 회전
         tempUp[0][0] = cubeBack[2][2];// L면의 옆면 - U면 변경사항
@@ -371,7 +437,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenLDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("L' : 왼쪽 면을 반시계방향으로 1/4 회전");
+        // L' : 왼쪽 면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         counterClockWise(tempLeft, cubeLeft);// L면 반시계방향 1/4 회전
         tempUp[0][0] = cubeFront[0][0];// L면의 옆면 - U면 변경사항
@@ -390,7 +456,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenR(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("R : 오른쪽 면을 시계방향으로 1/4 회전");
+        // R : 오른쪽 면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempRight, cubeRight);// R면 시계방향 1/4 회전
         tempUp[0][2] = cubeFront[0][2];// R면의 옆면 - U면 변경사항
@@ -409,7 +475,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenRDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("R' : 오른쪽 면을 반시계방향으로 1/4 회전");
+        // R' : 오른쪽 면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         counterClockWise(tempRight, cubeRight);// R면 반시계방향 1/4 회전
         tempUp[0][2] = cubeBack[2][0];// R면의 옆면 - U면 변경사항
@@ -428,7 +494,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenB(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("B : 뒷면을 시계방향으로 1/4 회전");
+        // B : 뒷면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempBack, cubeBack);// B면 시계방향 1/4 회전
         tempUp[0][0] = cubeRight[0][2];// B면의 옆면 - U면 변경사항
@@ -447,7 +513,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenBDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("B' : 뒷면을 반시계방향으로 1/4 회전");
+        // B' : 뒷면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         counterClockWise(tempBack, cubeBack);// B면 반시계방향 1/4 회전
         tempUp[0][0] = cubeLeft[2][0];// B면의 옆면 - U면 변경사항
@@ -466,7 +532,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenD(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("D : 아랫면을 시계방향으로 1/4 회전");
+        // D : 아랫면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         clockWise(tempDown, cubeDown);// D면 시계방향 1/4 회전
         tempLeft[2][0] = cubeBack[2][0];// D면의 옆면 - L면 변경사항
@@ -485,7 +551,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void whenDDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        System.out.println("D' : 아랫면을 반시계방향으로 1/4 회전");
+        // D' : 아랫면을 반시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
         counterClockWise(tempDown, cubeDown);// D면 반시계방향 1/4 회전
         tempLeft[2][0] = cubeFront[2][0]; // D면의 옆면 - L면 변경사항
