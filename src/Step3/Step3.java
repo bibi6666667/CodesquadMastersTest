@@ -3,16 +3,16 @@ package Step3;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Objects;
 
 public class Step3 { // 루빅스 큐브 구현하기
     Scanner sc = new Scanner(System.in);
-
-    char[][] cubeFront = new char[3][3]; // 앞면
     char[][] cubeUp = new char[3][3]; // 윗면
     char[][] cubeLeft = new char[3][3]; // 왼쪽면
+    char[][] cubeFront = new char[3][3]; // 앞면
     char[][] cubeRight = new char[3][3]; // 오른쪽면
-    char[][] cubeDown = new char[3][3]; // 아랫면
     char[][] cubeBack = new char[3][3]; // 뒷면
+    char[][] cubeDown = new char[3][3]; // 아랫면
     int countNum = 0; // 조작 횟수
     long countTime = 0; // 경과시간
 
@@ -25,31 +25,52 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void initCube() {
-        char[][] initFront = new char[3][3];
         char[][] initUp = new char[3][3];
         char[][] initLeft = new char[3][3];
+        char[][] initFront = new char[3][3];
         char[][] initRight = new char[3][3];
-        char[][] initDown = new char[3][3];
         char[][] initBack = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-            initFront[i] = new char[]{'G', 'G', 'G'}; // initFront : Green
-        }
+        char[][] initDown = new char[3][3];
         for (int i = 0; i < 3; i++) {
             initUp[i] = new char[]{'W', 'W', 'W'}; // initUp : White
-        }
-        for (int i = 0; i < 3; i++) {
             initLeft[i] = new char[]{'O', 'O', 'O'}; // initLeft : Orange
-        }
-        for (int i = 0; i < 3; i++) {
+            initFront[i] = new char[]{'G', 'G', 'G'}; // initFront : Green
             initRight[i] = new char[]{'R', 'R', 'R'}; // initRight : Red
-        }
-        for (int i = 0; i < 3; i++) {
+            initBack[i] = new char[]{'B', 'B', 'B'}; // initBack : Blue
             initDown[i] = new char[]{'Y', 'Y', 'Y'}; // initDown : Yellow
         }
-        for (int i = 0; i < 3; i++) {
-            initBack[i] = new char[]{'B', 'B', 'B'}; // initBack : Blue
-        }
         copyToCube(initUp, initLeft, initFront, initRight, initBack, initDown);
+        printCube();
+    }
+
+    public void scramble() { // 섞기 메서드
+        char[][] tempUp = new char[3][3];
+        char[][] tempLeft = new char[3][3];
+        char[][] tempFront = new char[3][3];
+        char[][] tempRight = new char[3][3];
+        char[][] tempBack = new char[3][3];
+        char[][] tempDown = new char[3][3];
+        Random random = new Random();
+        int randomNum1 = random.nextInt(4); // 0~3까지 랜덤하게 호출. bound5이상이 되면 360도를 돌아서 안 섞일떄가 많아 조정함.
+        int randomNum2 = random.nextInt(4);
+        int randomNum3 = random.nextInt(4);
+        for (int i = 0; i < randomNum1; i++) {
+            whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenDDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum2; i++) {
+            whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum3; i++) {
+            whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        for (int i = 0; i < randomNum1; i++) {
+            whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+            whenFDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
+        }
+        System.out.println("\n\n 🔀 🔀 큐브를 무작위로 섞었습니다.");
         printCube();
     }
 
@@ -79,23 +100,15 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public String start() {
         System.out.println("\n❓ ------------------------- ↗ 「전개도 도움말」 ------------------------------");
-        System.out.println(">>   U = Up = 윗면, L = Left = 왼쪽 면, F = Front = 앞면, ");
-        System.out.println(">>   R = Right = 오른쪽 면, B = Back = 뒷면, D = Down = 아랫면을 뜻합니다.");
+        System.out.println(">>   U = Up = 윗면,  L = Left = 왼쪽 면,  F = Front = 앞면, ");
+        System.out.println(">>   R = Right = 오른쪽 면,  B = Back = 뒷면,  D = Down = 아랫면을 뜻합니다.");
         System.out.println("--------------------------------------------------------------------------");
-        System.out.println("⤵ 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
-        System.out.println(" U : 윗면을 시계방향으로 1/4 회전, U' : 윗쪽 면을 반시계방향으로 1/4 회전");
-        System.out.println(" F : 앞면을 시계방향으로 1/4 회전, F' : 앞쪽 면을 반시계방향으로 1/4 회전");
-        System.out.println(" L : 왼쪽 면을 시계방향으로 1/4 회전, L' : 왼쪽 면을 반시계방향으로 1/4 회전");
-        System.out.println(" R : 오른쪽 면을 시계방향으로 1/4 회전, R' : 오른쪽 면을 반시계방향으로 1/4 회전");
-        System.out.println(" B : 뒷면을 시계방향으로 1/4 회전, B' : 뒷면을 반시계방향으로 1/4 회전");
-        System.out.println(" D : 아랫면을 시계방향으로 1/4 회전, D' : 아랫면을 반시계방향으로 1/4 회전");
+        System.out.println("⤵ 아래 명령어에 따라 '시계방향'으로 '1/4바퀴' 돌아갑니다.");
+        System.out.println(" U : 윗면,  L : 왼쪽 면,  F : 앞면,  R : 오른쪽 면,  B : 뒷면,  D : 아랫면");
+        System.out.println("⤴ 아래 명령어에 따라 '반시계방향'으로 '1/4바퀴' 돌아갑니다.");
+        System.out.println(" U' : 윗면,  L' : 왼쪽 면,  F' : 앞면,  R' : 오른쪽 면,  B' : 뒷면,  D' : 아랫면");
         System.out.println("🔃 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/2바퀴' 돌아갑니다.");
-        System.out.println(" U2 : 윗면을 시계방향으로 1/2 회전");
-        System.out.println(" L2 : 왼쪽 면을 시계방향으로 1/2 회전");
-        System.out.println(" F2 : 앞면을 시계방향으로 1/2 회전");
-        System.out.println(" R2 : 오른쪽 면을 시계방향으로 1/2 회전");
-        System.out.println(" B2 : 뒷면을 시계방향으로 1/2 회전");
-        System.out.println(" D2 : 아랫면을 시계방향으로 1/2 회전");
+        System.out.println(" U2 : 윗면,  L2 : 왼쪽 면,  F2 : 앞면,  R2 : 오른쪽 면,  B2 : 뒷면,  D2 : 아랫면");
         System.out.println("⛔ Q 를 입력하면 프로그램이 종료됩니다.");
         System.out.print("CUBE > ");
         String input = sc.nextLine();
@@ -142,7 +155,49 @@ public class Step3 { // 루빅스 큐브 구현하기
                 checkInput(reInputList);
             }
         }
+        isComplete();
         ready();
+    }
+
+    public void isComplete() {
+        char[][] completeUp = new char[3][3];
+        char[][] completeLeft = new char[3][3];
+        char[][] completeFront = new char[3][3];
+        char[][] completeRight = new char[3][3];
+        char[][] completeBack = new char[3][3];
+        char[][] completeDown = new char[3][3];
+        for (int i = 0; i < 3; i++) {
+            completeUp[i] = new char[]{'W', 'W', 'W'}; // completeUp : White
+            completeLeft[i] = new char[]{'O', 'O', 'O'}; // completeLeft : Orange
+            completeFront[i] = new char[]{'G', 'G', 'G'}; // completeFront : Green
+            completeRight[i] = new char[]{'R', 'R', 'R'}; // completeRight : Red
+            completeBack[i] = new char[]{'B', 'B', 'B'}; // completeBack : Blue
+            completeDown[i] = new char[]{'Y', 'Y', 'Y'}; // completeDown : Yellow
+        }
+        if (Objects.deepEquals(cubeUp, completeUp) && Objects.deepEquals(cubeLeft, completeLeft)
+                && Objects.deepEquals(cubeFront, completeFront) && Objects.deepEquals(cubeRight, completeRight)
+                && Objects.deepEquals(cubeBack, completeBack) && Objects.deepEquals(cubeDown, completeDown)) {
+            System.out.println("🎉🎉🎉 축하드립니다! 큐브를 완성했습니다! 🎉🎉🎉");
+            terminate();
+        }
+    }
+
+    public void terminate() { // 종료 메서드
+        sc.close();
+        long timeGap = calTime();
+        long timeGapMinute = (timeGap) / (1000 * 60); // 밀리초를 분 단위로 나누기
+        long timeGapSecond = (timeGap - (timeGapMinute * 1000 * 60)) / 1000; // 분을 다시 밀리초단위로 바꿔서 밀리초-분을 초 단위로 나누기
+        System.out.println("\n🕐 경과시간 : " + timeGapMinute + "분 " + timeGapSecond + "초");
+        System.out.println("🔄 조작 횟수 : " + countNum + "회");
+        System.out.println("\n😊 이용해 주셔서 감사합니다.");
+        System.exit(0);
+    }
+
+    public long calTime() {
+        long startTime = countTime;
+        long endTime = System.currentTimeMillis();
+        long timeGap = endTime - startTime;
+        return timeGap;
     }
 
     public void guideInput(String anInput) {
@@ -154,142 +209,91 @@ public class Step3 { // 루빅스 큐브 구현하기
         char[][] tempDown = new char[3][3];
         switch (anInput) {
             case "U":
-                System.out.println("U : 윗면을 시계방향으로 1/4 회전");
+                System.out.println("\nU : 윗면을 시계방향으로 1/4 회전");
                 whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "U2":
-                System.out.println("U2 : 윗면을 시계방향으로 1/2 회전");
+                System.out.println("\nU2 : 윗면을 시계방향으로 1/2 회전");
                 whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "U'":
-                System.out.println("U' : 윗쪽 면을 반시계방향으로 1/4 회전");
+                System.out.println("\nU' : 윗쪽 면을 반시계방향으로 1/4 회전");
                 whenUDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "F":
-                System.out.println("F : 앞면을 시계방향으로 1/4 회전");
+                System.out.println("\nF : 앞면을 시계방향으로 1/4 회전");
                 whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "F2":
-                System.out.println("F2 : 앞면을 시계방향으로 1/2 회전");
+                System.out.println("\nF2 : 앞면을 시계방향으로 1/2 회전");
                 whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "F'":
-                System.out.println("F' : 앞쪽 면을 반시계방향으로 1/4 회전");
+                System.out.println("\nF' : 앞쪽 면을 반시계방향으로 1/4 회전");
                 whenFDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "L":
-                System.out.println("L : 왼쪽 면을 시계방향으로 1/4 회전");
+                System.out.println("\nL : 왼쪽 면을 시계방향으로 1/4 회전");
                 whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "L2":
-                System.out.println("L2 : 왼쪽 면을 시계방향으로 1/2 회전");
+                System.out.println("\nL2 : 왼쪽 면을 시계방향으로 1/2 회전");
                 whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "L'":
-                System.out.println("L' : 왼쪽 면을 반시계방향으로 1/4 회전");
+                System.out.println("\nL' : 왼쪽 면을 반시계방향으로 1/4 회전");
                 whenLDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "R":
-                System.out.println("R : 오른쪽 면을 시계방향으로 1/4 회전");
+                System.out.println("\nR : 오른쪽 면을 시계방향으로 1/4 회전");
                 whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "R2":
-                System.out.println("R2 : 오른쪽 면을 시계방향으로 1/2 회전");
+                System.out.println("\nR2 : 오른쪽 면을 시계방향으로 1/2 회전");
                 whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "R'":
-                System.out.println("R' : 오른쪽 면을 반시계방향으로 1/4 회전");
+                System.out.println("\nR' : 오른쪽 면을 반시계방향으로 1/4 회전");
                 whenRDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "B":
-                System.out.println("B : 뒷면을 시계방향으로 1/4 회전");
+                System.out.println("\nB : 뒷면을 시계방향으로 1/4 회전");
                 whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "B2":
-                System.out.println("B2 : 뒷면을 시계방향으로 1/2 회전");
+                System.out.println("\nB2 : 뒷면을 시계방향으로 1/2 회전");
                 whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "B'":
-                System.out.println("B' : 뒷면을 반시계방향으로 1/4 회전");
+                System.out.println("\nB' : 뒷면을 반시계방향으로 1/4 회전");
                 whenBDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "D":
-                System.out.println("D : 아랫면을 시계방향으로 1/4 회전");
+                System.out.println("\nD : 아랫면을 시계방향으로 1/4 회전");
                 whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "D2":
-                System.out.println("D2 : 아랫면을 시계방향으로 1/2 회전");
+                System.out.println("\nD2 : 아랫면을 시계방향으로 1/2 회전");
                 whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "D'":
-                System.out.println("D' : 아랫면을 반시계방향으로 1/4 회전");
+                System.out.println("\nD' : 아랫면을 반시계방향으로 1/4 회전");
                 whenDDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
                 break;
             case "Q":
+                System.out.println("⛔ 프로그램 종료");
                 terminate();
                 break;
         }
         countNum++;
         printCube();
         System.out.println(); // 줄바꿈
-    }
-
-    public void scramble() { // 섞기 메서드
-        char[][] tempUp = new char[3][3];
-        char[][] tempLeft = new char[3][3];
-        char[][] tempFront = new char[3][3];
-        char[][] tempRight = new char[3][3];
-        char[][] tempBack = new char[3][3];
-        char[][] tempDown = new char[3][3];
-        Random random = new Random();
-        int randomNum = random.nextInt(6); // 0~5까지 랜덤하게 호출
-        for (int i = 0; i < randomNum; i++) {
-            whenU(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenBDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenLDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-        }
-        for (int i = 0; i < randomNum; i++) {
-            whenDDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenF(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenB(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-        }
-        for (int i = 0; i < randomNum; i++) {
-            whenL(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenD(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenFDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-        }
-        for (int i = 0; i < randomNum; i++) {
-            whenRDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenR(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-            whenUDot(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);
-        }
-        System.out.println("\n\n 🔀 🔀 큐브를 무작위로 섞었습니다.");
-        printCube();
-    }
-
-    public void terminate() { // 종료 메서드
-        sc.close();
-        long timeGap = calTime();
-        long timeGapMinute = (timeGap) / (1000 * 60); // 밀리초를 분 단위로 나누기
-        long timeGapSecond = (timeGap - (timeGapMinute * 1000 * 60)) / 1000; // 분을 다시 밀리초단위로 바꿔서 밀리초-분을 초 단위로 나누기
-        System.out.println("🕐 경과시간 : " + timeGapMinute + "분 " + timeGapSecond + "초");
-        System.out.println("🔄 조작 횟수 : " + countNum);
-        System.out.println("⛔ 프로그램 종료. 이용해 주셔서 감사합니다.");
-        System.exit(0);
-    }
-
-    public long calTime() {
-        long startTime = countTime;
-        long endTime = System.currentTimeMillis();
-        long timeGap = endTime - startTime;
-        System.out.println("timeGap : " + timeGap);
-        return timeGap;
     }
 
     public void copyToTemp(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
