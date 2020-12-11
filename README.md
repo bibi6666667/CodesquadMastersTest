@@ -175,7 +175,16 @@ whenU()를 구현했다!
 
 **TODO**
 - Q 입력시 '이용해주셔서 감사합니다'로 프로그램 종료 및 조작받은 명령의 갯수 출력 (완료)
-- (추가구현) 프로그램 종료시 경과시간 출력
+- (추가구현) 프로그램 종료시 경과시간 출력 (완성)
+  - 주로 System.currentTimeMillis()를 활용.
+  - 인스턴스변수 long countTime 추가.
+    - 화면에 큐브가 제시된 이후인 ready() 호출 시의 시간을 countTime에 대입.
+  - calTime()
+    - countTime에 입력되어 있는 시간을 startTime, calTime이 호출되는 시간을 endTime으로 함.
+    - return값 : 경과시간인 endTime-startTime(밀리초 단위)
+  - terminate()
+    - calTime()의 리턴값으로 받아온 경과시간을 분 단위, 초 단위로 변환 및 출력.
+
 - (추가구현) 큐브 섞기 기능
 - (추가구현) 모든 면을 맞추면 축하메시지와 함께 프로그램 종료
 - 리팩토링! 가능한 요구조건에 맞게.
