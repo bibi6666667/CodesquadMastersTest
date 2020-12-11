@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Step3 { // 루빅스 큐브 구현하기
     Scanner sc = new Scanner(System.in);
-    
+
     char[][] cubeFront = new char[3][3]; // 앞면
     char[][] cubeUp = new char[3][3]; // 윗면
     char[][] cubeLeft = new char[3][3]; // 왼쪽면
@@ -13,6 +13,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     char[][] cubeDown = new char[3][3]; // 아랫면
     char[][] cubeBack = new char[3][3]; // 뒷면
     int countNum = 0; // 조작 횟수
+    long countTime = 0; // 경과시간
 
     public static void main(String[] args) {
         Step3 step3 = new Step3();
@@ -51,6 +52,7 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void ready() {
+        countTime = System.currentTimeMillis();
         String input = start();
         ArrayList<String> inputList = trimInput(input);
         checkInput(inputList);
@@ -78,14 +80,14 @@ public class Step3 { // 루빅스 큐브 구현하기
         System.out.println(">>   U = Up = 윗면, L = Left = 왼쪽 면, F = Front = 앞면, ");
         System.out.println(">>   R = Right = 오른쪽 면, B = Back = 뒷면, D = Down = 아랫면을 뜻합니다.");
         System.out.println("--------------------------------------------------------------------------");
-        System.out.println("✔ 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
+        System.out.println("⤵ 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/4바퀴' 돌아갑니다.");
         System.out.println(" U : 윗면을 시계방향으로 1/4 회전, U' : 윗쪽 면을 반시계방향으로 1/4 회전");
         System.out.println(" F : 앞면을 시계방향으로 1/4 회전, F' : 앞쪽 면을 반시계방향으로 1/4 회전");
         System.out.println(" L : 왼쪽 면을 시계방향으로 1/4 회전, L' : 왼쪽 면을 반시계방향으로 1/4 회전");
         System.out.println(" R : 오른쪽 면을 시계방향으로 1/4 회전, R' : 오른쪽 면을 반시계방향으로 1/4 회전");
         System.out.println(" B : 뒷면을 시계방향으로 1/4 회전, B' : 뒷면을 반시계방향으로 1/4 회전");
         System.out.println(" D : 아랫면을 시계방향으로 1/4 회전, D' : 아랫면을 반시계방향으로 1/4 회전");
-        System.out.println("✔ 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/2바퀴' 돌아갑니다.");
+        System.out.println("🔃 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/2바퀴' 돌아갑니다.");
         System.out.println(" U2 : 윗면을 시계방향으로 1/2 회전");
         System.out.println(" L2 : 왼쪽 면을 시계방향으로 1/2 회전");
         System.out.println(" F2 : 앞면을 시계방향으로 1/2 회전");
@@ -136,9 +138,6 @@ public class Step3 { // 루빅스 큐브 구현하기
                 ArrayList<String> reInputList = trimInput(reInput);
                 checkInput(reInputList);
             }
-//            if (i == (inputListSize - 1)) {
-//                ready();
-//            }
         }
         ready();
     }
@@ -210,10 +209,21 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     public void terminate() { // 종료 메서드
         sc.close();
-        System.out.println("경과시간 : ");
-        System.out.println("조작 횟수 : " + countNum);
+        long timeGap = calTime();
+        long timeGapMinute = (timeGap) / (1000 * 60); // 밀리초를 분 단위로 나누기
+        long timeGapSecond = (timeGap - (timeGapMinute * 1000 * 60)) / 1000; // 분을 다시 밀리초단위로 바꿔서 밀리초-분을 초 단위로 나누기
+        System.out.println("🕐 경과시간 : " + timeGapMinute +"분 " + timeGapSecond + "초");
+        System.out.println("🔄 조작 횟수 : " + countNum);
         System.out.println("⛔ 프로그램 종료. 이용해 주셔서 감사합니다.");
         System.exit(0);
+    }
+
+    public long calTime(){
+        long startTime = countTime;
+        long endTime = System.currentTimeMillis();
+        long timeGap = endTime - startTime;
+        System.out.println("timeGap : " + timeGap);
+        return timeGap;
     }
 
     public void copyToTemp(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
