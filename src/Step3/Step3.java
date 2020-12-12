@@ -100,7 +100,7 @@ public class Step3 { // 루빅스 큐브 구현하기
         System.out.println(" U : 윗면,  L : 왼쪽 면,  F : 앞면,  R : 오른쪽 면,  B : 뒷면,  D : 아랫면");
         System.out.println("⤴ 아래 명령어에 따라 '반시계방향'으로 '1/4바퀴' 돌아갑니다.");
         System.out.println(" U' : 윗면,  L' : 왼쪽 면,  F' : 앞면,  R' : 오른쪽 면,  B' : 뒷면,  D' : 아랫면");
-        System.out.println("🔃 아래 명령어에 따라, 정해진 면의 정해진 방향으로 '1/2바퀴' 돌아갑니다.");
+        System.out.println("🔃 아래 명령어에 따라 '시계방향'으로 '1/2바퀴' 돌아갑니다.");
         System.out.println(" U2 : 윗면,  L2 : 왼쪽 면,  F2 : 앞면,  R2 : 오른쪽 면,  B2 : 뒷면,  D2 : 아랫면");
         System.out.println("⛔ Q 를 입력하면 프로그램이 종료됩니다.");
         System.out.print("CUBE > ");
@@ -373,7 +373,6 @@ public class Step3 { // 루빅스 큐브 구현하기
         tempBack[0][1] = cubeRight[0][1];
         tempBack[0][2] = cubeRight[0][2];
         copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); //바뀐 임시변수를 cube에 복사
-
     }
 
     public void whenL(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
