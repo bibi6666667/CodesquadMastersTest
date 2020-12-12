@@ -42,6 +42,7 @@ public class Step1 {
         System.out.println("숫자를 입력해 주세요. 입력한 숫자만큼 밀어냅니다.");
         System.out.println("-100이상, 100미만의 정수로 입력해 주세요.");
         int num = sc.nextInt();
+        sc.nextLine(); // 개행문자 제거
         return num;
     }
 
