@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Step3 { // 루빅스 큐브 구현하기
     Scanner sc = new Scanner(System.in);
+
     char[][] cubeUp = new char[3][3]; // 윗면
     char[][] cubeLeft = new char[3][3]; // 왼쪽면
     char[][] cubeFront = new char[3][3]; // 앞면
@@ -25,21 +26,14 @@ public class Step3 { // 루빅스 큐브 구현하기
     }
 
     public void initCube() {
-        char[][] initUp = new char[3][3];
-        char[][] initLeft = new char[3][3];
-        char[][] initFront = new char[3][3];
-        char[][] initRight = new char[3][3];
-        char[][] initBack = new char[3][3];
-        char[][] initDown = new char[3][3];
         for (int i = 0; i < 3; i++) {
-            initUp[i] = new char[]{'W', 'W', 'W'}; // initUp : White
-            initLeft[i] = new char[]{'O', 'O', 'O'}; // initLeft : Orange
-            initFront[i] = new char[]{'G', 'G', 'G'}; // initFront : Green
-            initRight[i] = new char[]{'R', 'R', 'R'}; // initRight : Red
-            initBack[i] = new char[]{'B', 'B', 'B'}; // initBack : Blue
-            initDown[i] = new char[]{'Y', 'Y', 'Y'}; // initDown : Yellow
+            cubeUp[i] = new char[]{'W', 'W', 'W'}; // 윗면 기본 색 : White
+            cubeLeft[i] = new char[]{'O', 'O', 'O'}; // 왼쪽면 기본 색 : Orange
+            cubeFront[i] = new char[]{'G', 'G', 'G'}; // 앞면 기본 색 : Green
+            cubeRight[i] = new char[]{'R', 'R', 'R'}; // 오른쪽면 기본 색 : Red
+            cubeBack[i] = new char[]{'B', 'B', 'B'}; // 뒷면 기본 색 : Blue
+            cubeDown[i] = new char[]{'Y', 'Y', 'Y'}; // 아랫면 기본 색 : Yellow
         }
-        copyToCube(initUp, initLeft, initFront, initRight, initBack, initDown);
         printCube();
     }
 
@@ -72,17 +66,16 @@ public class Step3 { // 루빅스 큐브 구현하기
         }
         System.out.println("\n\n 🔀 🔀 큐브를 무작위로 섞었습니다.");
         printCube();
+        countTime = System.currentTimeMillis();
     }
 
     public void ready() {
-        countTime = System.currentTimeMillis();
         String input = start();
         ArrayList<String> inputList = trimInput(input);
         checkInput(inputList);
     }
 
     public void printCube() {
-        // System.out.println("↓ 현재 큐브");
         for (int i = 0; i < 3; i++) {
             System.out.printf("%n %6c %1c %1c %1c %6c", ' ', cubeUp[i][0], cubeUp[i][1], cubeUp[i][2], ' ');
         }
@@ -142,9 +135,9 @@ public class Step3 { // 루빅스 큐브 구현하기
         int inputListSize = inputList.size();
         for (int i = 0; i < inputListSize; i++) {
             String anInput = inputList.get(i);
-            if (anInput.equals("U") || anInput.equals("U'") || anInput.equals("F") || anInput.equals("F'")
-                    || anInput.equals("L") || anInput.equals("L'") || anInput.equals("R") || anInput.equals("R'")
-                    || anInput.equals("B") || anInput.equals("B'") || anInput.equals("D") || anInput.equals("D'")
+            if (anInput.equals("U'") || anInput.equals("U") || anInput.equals("F'") || anInput.equals("F")
+                    || anInput.equals("L'") || anInput.equals("L") || anInput.equals("R'") || anInput.equals("R")
+                    || anInput.equals("B'") || anInput.equals("B") || anInput.equals("D'") || anInput.equals("D")
                     || anInput.equals("U2") || anInput.equals("L2") || anInput.equals("F2") || anInput.equals("R2")
                     || anInput.equals("B2") || anInput.equals("D2") || anInput.equals("Q")) {
                 guideInput(anInput);
@@ -383,44 +376,6 @@ public class Step3 { // 루빅스 큐브 구현하기
 
     }
 
-    public void whenF(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        // F : 앞쪽 면을 시계방향으로 1/4 회전
-        copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
-        clockWise(tempFront, cubeFront);// F면 시계방향 1/4 회전
-        tempUp[2][0] = cubeLeft[2][2];// F면의 옆면 - U면 변경사항
-        tempUp[2][1] = cubeLeft[1][2];
-        tempUp[2][2] = cubeLeft[0][2];
-        tempLeft[0][2] = cubeDown[0][0]; // F면의 옆면 - L면 변경사항
-        tempLeft[1][2] = cubeDown[0][1];
-        tempLeft[2][2] = cubeDown[0][2];
-        tempRight[0][0] = cubeUp[2][0];// F면의 옆면 - R면 변경사항
-        tempRight[1][0] = cubeUp[2][1];
-        tempRight[2][0] = cubeUp[2][2];
-        tempDown[0][0] = cubeRight[2][0];// F면의 옆면 - D면 변경사항
-        tempDown[0][1] = cubeRight[1][0];
-        tempDown[0][2] = cubeRight[0][0];
-        copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); // 바뀐 임시변수를 cube에 복사
-    }
-
-    public void whenFDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
-        // F' : 앞쪽 면을 반시계방향으로 1/4 회전
-        copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); // 임시변수에 cube 내용 복사
-        counterClockWise(tempFront, cubeFront);// F면 반시계방향 1/4 회전
-        tempUp[2][0] = cubeRight[0][0];// F면의 옆면 - U면 변경사항
-        tempUp[2][1] = cubeRight[1][0];
-        tempUp[2][2] = cubeRight[2][0];
-        tempLeft[0][2] = cubeUp[2][2]; // F면의 옆면 - L면 변경사항
-        tempLeft[1][2] = cubeUp[2][1];
-        tempLeft[2][2] = cubeUp[2][0];
-        tempRight[0][0] = cubeDown[0][2];// F면의 옆면 - R면 변경사항
-        tempRight[1][0] = cubeDown[0][1];
-        tempRight[2][0] = cubeDown[0][0];
-        tempDown[0][0] = cubeLeft[0][2];// F면의 옆면 - D면 변경사항
-        tempDown[0][1] = cubeLeft[1][2];
-        tempDown[0][2] = cubeLeft[2][2];
-        copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 바뀐 임시변수를 cube에 복사
-    }
-
     public void whenL(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
         // L : 왼쪽 면을 시계방향으로 1/4 회전
         copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
@@ -456,6 +411,44 @@ public class Step3 { // 루빅스 큐브 구현하기
         tempBack[0][2] = cubeUp[2][0];// L면의 옆면 - B면 변경사항
         tempBack[1][2] = cubeUp[1][0];
         tempBack[2][2] = cubeUp[0][0];
+        copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 바뀐 임시변수를 cube에 복사
+    }
+
+    public void whenF(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
+        // F : 앞쪽 면을 시계방향으로 1/4 회전
+        copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 임시변수에 cube 내용 복사
+        clockWise(tempFront, cubeFront);// F면 시계방향 1/4 회전
+        tempUp[2][0] = cubeLeft[2][2];// F면의 옆면 - U면 변경사항
+        tempUp[2][1] = cubeLeft[1][2];
+        tempUp[2][2] = cubeLeft[0][2];
+        tempLeft[0][2] = cubeDown[0][0]; // F면의 옆면 - L면 변경사항
+        tempLeft[1][2] = cubeDown[0][1];
+        tempLeft[2][2] = cubeDown[0][2];
+        tempRight[0][0] = cubeUp[2][0];// F면의 옆면 - R면 변경사항
+        tempRight[1][0] = cubeUp[2][1];
+        tempRight[2][0] = cubeUp[2][2];
+        tempDown[0][0] = cubeRight[2][0];// F면의 옆면 - D면 변경사항
+        tempDown[0][1] = cubeRight[1][0];
+        tempDown[0][2] = cubeRight[0][0];
+        copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); // 바뀐 임시변수를 cube에 복사
+    }
+
+    public void whenFDot(char[][] tempUp, char[][] tempLeft, char[][] tempFront, char[][] tempRight, char[][] tempBack, char[][] tempDown) {
+        // F' : 앞쪽 면을 반시계방향으로 1/4 회전
+        copyToTemp(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown); // 임시변수에 cube 내용 복사
+        counterClockWise(tempFront, cubeFront);// F면 반시계방향 1/4 회전
+        tempUp[2][0] = cubeRight[0][0];// F면의 옆면 - U면 변경사항
+        tempUp[2][1] = cubeRight[1][0];
+        tempUp[2][2] = cubeRight[2][0];
+        tempLeft[0][2] = cubeUp[2][2]; // F면의 옆면 - L면 변경사항
+        tempLeft[1][2] = cubeUp[2][1];
+        tempLeft[2][2] = cubeUp[2][0];
+        tempRight[0][0] = cubeDown[0][2];// F면의 옆면 - R면 변경사항
+        tempRight[1][0] = cubeDown[0][1];
+        tempRight[2][0] = cubeDown[0][0];
+        tempDown[0][0] = cubeLeft[0][2];// F면의 옆면 - D면 변경사항
+        tempDown[0][1] = cubeLeft[1][2];
+        tempDown[0][2] = cubeLeft[2][2];
         copyToCube(tempUp, tempLeft, tempFront, tempRight, tempBack, tempDown);// 바뀐 임시변수를 cube에 복사
     }
 
