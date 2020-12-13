@@ -53,7 +53,7 @@
   - 원인은 Scanner(System.in)의 잘못된 사용이었던 것 같다.
   - [Scanner NoSuchElementException](https://okky.kr/article/508578) 를 참고했습니다. 감사합니다.
 
-- 결과론적으로 답이 나오긴 하지만, 2단계와 3단계의 큐브 풀이에도 이 방식이 통하진 않을 듯. 🤔
+- 결과적으로 답이 나오긴 하지만, 2단계와 3단계의 큐브 풀이에도 이 방식이 통하진 않을 듯. 🤔
 
 - - -
 - - -
@@ -278,6 +278,8 @@
       - Object.deepEquals()를 사용하거나 반복문으로 한줄씩 equals()로 비교해야 한다.
       - 참고 링크 : [자바 이차원배열 비교](https://bbiyakbbiyak.tistory.com/5)
       
+            
+- - - 
+- - - 
 
-
-  
+2020년 12월 13일 제출되었습니다.
